@@ -1,0 +1,69 @@
+GET / HTTP/1.1 Googlebot	normal
+GET /robots.txt HTTP/1.1 Googlebot	normal
+GET /index.html HTTP/1.1 Mozilla/5.0	normal
+GET /contact HTTP/1.1 Safari	normal
+GET /style.css HTTP/1.1 Chrome	normal
+GET /products/item/123 HTTP/1.1 Mozilla/5.0	normal
+GET /blog/article?id=45 HTTP/1.1 Mozilla/5.0	normal
+GET /home HTTP/1.1 Edge	normal
+
+GET /wp-login.php HTTP/1.1 curl/7.68.0	wp_saldirisi
+GET /wp-admin HTTP/1.1 Mozilla/5.0	wp_saldirisi
+GET /wp-content/themes HTTP/1.1 Mozilla/5.0	wp_saldirisi
+GET /wp-includes/js/jquery/jquery.js HTTP/1.1	wp_saldirisi
+GET /wp-json/wp/v2/users HTTP/1.1	wp_saldirisi
+
+GET /login.php?user=admin' OR '1'='1 HTTP/1.1 Python-requests	sql_injection
+GET /page.php?id=1 UNION SELECT username,password FROM users HTTP/1.1 Python-requests	sql_injection
+GET /search.php?q=' OR '1'='1' -- HTTP/1.1 Mozilla/5.0	sql_injection
+GET /login.php?username=admin'-- HTTP/1.1	sql_injection
+GET /profile.php?id=1 OR 1=1 HTTP/1.1	sql_injection
+
+GET /login.php?user=admin'%20OR%20'1'='1 HTTP/1.1	sql_injection
+GET /page.php?id=1/**/UNION/**/SELECT/**/username,password/**/FROM/**/users HTTP/1.1	sql_injection
+GET /search.php?q='/**/OR/**/'1'='1'-- HTTP/1.1	sql_injection
+
+GET /search?q=<script>alert(1)</script> HTTP/1.1 Mozilla/5.0	xss
+POST /comment HTTP/1.1 <script>malicious_code()</script>	xss
+GET /search?q=%3Cscript%3Ealert(1)%3C/script%3E HTTP/1.1	xss
+POST /comment HTTP/1.1 &lt;script&gt;alert(1)&lt;/script&gt;	xss
+GET /profile?name=<svg onload=alert(1)> HTTP/1.1	xss
+
+POST /login HTTP/1.1 RDP bruteforce attempt	bruteforce
+SSH connection attempt failed	bruteforce
+Failed password for root from 192.168.1.1 port 22 ssh2	bruteforce
+Failed login for user root from 10.0.0.1 port 22	bruteforce
+Invalid user admin from 203.0.113.10	bruteforce
+Received disconnect from 192.168.0.7 port 22:11: Bye Bye	bruteforce
+FTP login failed for user anonymous	bruteforce
+SSH login attempt with invalid credentials	bruteforce
+POST /wp-login.php HTTP/1.1 Bruteforce	bruteforce
+
+GET /etc/passwd HTTP/1.1 Python-urllib	directory_traversal
+GET /../../etc/passwd HTTP/1.1	directory_traversal
+GET /..%2f..%2f..%2fwindows/win.ini HTTP/1.1	directory_traversal
+GET /cgi-bin/../../../../etc/shadow HTTP/1.1	directory_traversal
+GET /..%2e%2e%2f..%2e%2e/etc/passwd HTTP/1.1	directory_traversal
+
+GET /index.php?cmd=ls HTTP/1.1	komut_enjeksiyonu
+GET /shell.php?exec=whoami HTTP/1.1	komut_enjeksiyonu
+GET /ping.php?host=8.8.8.8;cat /etc/passwd HTTP/1.1	komut_enjeksiyonu
+GET /admin.php?command=cat%20/etc/shadow HTTP/1.1	komut_enjeksiyonu
+
+POST /admin/update HTTP/1.1 Referer: http://evilsite.com/ POST /xmlrpc.php HTTP/1.1 Content-Type: application/xml <?xml version="1.0"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>	xxe
+
+Flood request detected from 123.123.123.123	flood
+Too many requests from 10.0.0.5	flood
+Client exceeded request rate limit	flood
+Excessive connections from 172.16.0.2	flood
+Bruteforce detected from 198.51.100.4	flood
+
+GET /admin.php HTTP/1.1	pentest_araci
+GET /administrator/index.php HTTP/1.1	pentest_araci
+GET /login.asp HTTP/1.1	pentest_araci
+GET /manage/ HTTP/1.1	pentest_araci
+GET / HTTP/1.1 Masscan	pentest_araci
+GET / HTTP/1.1 sqlmap	pentest_araci
+GET / HTTP/1.1 python-requests	pentest_araci
+GET / HTTP/1.1 nikto	pentest_araci
+GET / HTTP/1.1 wpscan	pentest_araci
